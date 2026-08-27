@@ -6,40 +6,7 @@
   <div class="scroll">
     <div class="header">Header section</div>
     <div class="list-items">
-        <div class="items">item 1</div>
-        <div class="items">item 2</div>
-        <div class="items">item 3</div>
-        <div class="items">item 4</div>
-        <div class="items">item 5</div>
-        <div class="items">item 5</div>
-        <div class="items">item 6</div>
-        <div class="items">item 7</div>
-        <div class="items">item 8</div>
-        <div class="items">item 9</div>
-        <div class="items">item 10</div>
-        <div class="items">item 11</div>
-        <div class="items">item 12</div>
-        <div class="items">item 13</div>
-        <div class="items">item 14</div>
-        <div class="items">item 15</div>
-        <div class="items">item 16</div>
-        <div class="items">item 17</div>
-        <div class="items">item 18</div>
-        <div class="items">item 19</div>
-        <div class="items">item 20</div>
-        <div class="items">item 21</div>
-        <div class="items">item 22</div>
-        <div class="items">item 23</div>
-        <div class="items">item 24</div>
-        <div class="items">item 25</div>
-        <div class="items">item 26</div>
-        <div class="items">item 27</div>
-        <div class="items">item 28</div>
-        <div class="items">item 29</div>
-        <div class="items">item 30</div>
-        <div class="items">item 31</div>
-        <div class="items">item 32</div>
-        <div class="items">item 33</div>
+     
         <div class="items">item 34</div>
         <div class="items">item 35</div>
         <div class="items">item 36</div>
@@ -51,10 +18,13 @@
     </div>
   </div>    
 <div class="button">
-  <!-- lots of scrollable content -->
   <button class="check">button</button>
 </div>
 
+<div class="wrap">
+    <div class="card left">Card A left</div>
+    <div class="card right">Card B right</div>
+</div>
 <style>
 .parent {
   position: relative;  
@@ -85,7 +55,7 @@
   justify-content: center;
 }
 .scroll{
-    height: 300px;
+    /* height: 300px; */
     position: relative;
 }
 .header{
@@ -106,6 +76,29 @@
   background: #378ADD;
   color: white;
   border: none;
+}
+.wrap{
+    position: relative;
+    height: 300px;
+
+}
+.card{
+    position: absolute;
+    top: 40px;
+    width: 160px;
+    height: 160px;
+    border: 1px solid;
+}
+.left{
+    left: 40px;
+    z-index: 2;
+    background: blue;
+}
+.right{
+    left: 10px;
+    z-index: 1;
+    background: red;
+    
 }
 
 </style>
