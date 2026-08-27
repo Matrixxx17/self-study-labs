@@ -23,9 +23,36 @@
 
 <div class="wrap">
     <div class="card left">Card A left</div>
-    <div class="card right">Card B right</div>
+        <div class="card right">Card B right</div>
 </div>
+
+
+<div class="wrapper">
+    <div class="card-a">Card A, z-index-9999</div>
+
+</div>
+    <div class="card-b">Card B z-index-1</div>
+
+
+<div class="car">   
+    <p>card content</p>
+    <button class="options">options</button>
+    <div class="menu"> 
+    <div>Edit</div>
+    <div>Duplicate</div>
+    <div>Move to folder</div>
+    <div>Share</div>
+    <div>Delete</div>
+    </div>
+
+</div>
+
+
+
 <style>
+
+
+
 .parent {
   position: relative;  
   height: 64px;
@@ -101,4 +128,35 @@
     
 }
 
+.wrapper{
+    transform: scale(1);
+    top: 40px;
+    width: 160px;
+    height: 160px;
+    border: 1px solid;
+}
+.card-a{
+    position: relative;
+    z-index: 9999;
+        left: 40px;
+    background: blue;
+}
+.card-b{
+     left: 10px;
+    z-index: 1;
+    background: red;
+}
+.car{
+    position: relative;
+    /* overflow: hidden; */
+    border: 1px solid;
+  width: 220px;
+  height: 100px;
+}
+.menu{
+    position: absolute;
+    top: 60px;
+    left: 16px;
+    width: 160px;
+}
 </style>
