@@ -28,7 +28,7 @@ export default function  ScratchPage(){
 
       <div className="rounded-lg border border-slate-200">
         {products.map((product, index) => (
-          <ScratchRow key={index} product={product} />
+          <ScratchRow key={product.id} product={product} />
         ))}
       </div>
     </div>
