@@ -1,111 +1,64 @@
+// src/layouts/RootLayout.jsx
 import { Link, NavLink, Outlet } from "react-router-dom"
-
-const styles = {
-  wrapper: {
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-  },
-  nav: {
-    backgroundColor: "#1f2937",
-    padding: "16px 24px",
-  },
-  navInner: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    maxWidth: "1200px",
-    margin: "0 auto",
-  },
-  brand: {
-    color: "#ffffff",
-    fontSize: "20px",
-    fontWeight: "bold",
-    textDecoration: "none",
-  },
-  navLinks: {
-    display: "flex",
-    gap: "20px",
-  },
-  navLink: {
-    color: "#d1d5db",
-    textDecoration: "none",
-    fontSize: "16px",
-  },
-  main: {
-    flex: 1,
-    padding: "24px",
-    maxWidth: "1200px",
-    margin: "0 auto",
-    width: "100%",
-  },
-  footer: {
-    backgroundColor: "#1f2937",
-    color: "#d1d5db",
-    textAlign: "center",
-    padding: "16px",
-  },
-}
+import { Boxes, ShoppingCart, ShieldCheck } from "lucide-react"
+import useCartStore from "../store/useCartStore"
+import useAuthStore from "../store/useAuthStore"
 
 export default function RootLayout() {
+  const itemCount = useCartStore((s) =>
+    s.items.reduce((sum, i) => sum + i.quantity, 0)
+  )
+  const isAdmin = useAuthStore((s) => s.isAdmin)
+  const toggleAdmin = useAuthStore((s) => s.toggleAdmin)
+
+  const linkClass = ({ isActive }) =>
+    `text-sm font-medium ${isActive ? "text-white" : "text-slate-300 hover:text-white"}`
+
   return (
-    <div style={styles.wrapper}>
-      <nav style={styles.nav}>
-        <div style={styles.navInner}>
-          <Link to="/products" style={styles.brand}>
-            Product Store
+    <div className="min-h-screen flex flex-col">
+      <nav className="sticky top-0 z-40 bg-slate-800 px-4 sm:px-6 py-4">
+        <div className="mx-auto max-w-6xl flex items-center justify-between">
+          <Link to="/products" className="flex items-center gap-2 text-white">
+            <Boxes size={24} strokeWidth={2} />
+            <span className="font-display font-bold text-lg tracking-tight hidden sm:inline">
+              Product Store
+            </span>
           </Link>
-          <div style={styles.navLinks}>
-            <NavLink
-              to="/products"
-              style={({ isActive }) => ({
-                ...styles.navLink,
-                color: isActive ? "#ffffff" : "#d1d5db",
-                fontWeight: isActive ? "bold" : "normal",
-              })}
+
+          <div className="flex items-center gap-4 sm:gap-6">
+            <NavLink to="/products" className={linkClass}>Products</NavLink>
+            <NavLink to="/admin" className={linkClass}>Admin</NavLink>
+
+            <button
+              onClick={toggleAdmin}
+              className={`hidden sm:flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm ${
+                isAdmin
+                  ? "bg-teal-600 text-white"
+                  : "bg-slate-700 text-slate-300 hover:bg-slate-600"
+              }`}
             >
-              Products
-            </NavLink>
-            <NavLink
-              to="/cart"
-              style={({ isActive }) => ({
-                ...styles.navLink,
-                color: isActive ? "#ffffff" : "#d1d5db",
-                fontWeight: isActive ? "bold" : "normal",
-              })}
-            >
-              Cart
-            </NavLink>
-            <NavLink
-              to="/admin"
-              style={({ isActive }) => ({
-                ...styles.navLink,
-                color: isActive ? "#ffffff" : "#d1d5db",
-                fontWeight: isActive ? "bold" : "normal",
-              })}
-            >
-              Admin
-            </NavLink>
-            <NavLink
-              to="/scratch"
-              style={({ isActive }) => ({
-                ...styles.navLink,
-                color: isActive ? "#ffffff" : "#d1d5db",
-                fontWeight: isActive ? "bold" : "normal",
-              })}
-            >
-              Scratch Page
+              <ShieldCheck size={16} strokeWidth={1.75} />
+              {isAdmin ? "Admin mode" : "Log in as admin"}
+            </button>
+
+            <NavLink to="/cart" className="relative text-slate-300 hover:text-white">
+              <ShoppingCart size={22} strokeWidth={1.75} />
+              {itemCount > 0 && (
+                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-teal-600 text-[10px] font-medium text-white">
+                  {itemCount}
+                </span>
+              )}
             </NavLink>
           </div>
         </div>
       </nav>
 
-      <main style={styles.main}>
+      <main className="flex-1 w-full max-w-6xl mx-auto px-4 py-8">
         <Outlet />
       </main>
 
-      <footer style={styles.footer}>
-        * This is copyright content don't use it *
+      <footer className="bg-slate-800 text-slate-300 text-center py-4 text-sm">
+        Copyright content don't use it
       </footer>
     </div>
   )
