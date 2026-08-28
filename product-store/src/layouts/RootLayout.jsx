@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet } from "react-router-dom"
 import { Boxes, ShoppingCart, ShieldCheck } from "lucide-react"
 import useCartStore from "../store/useCartStore"
 import useAuthStore from "../store/useAuthStore"
-
+import BackToTop from "../component/BackToTop"
 export default function RootLayout() {
   const itemCount = useCartStore((s) =>
     s.items.reduce((sum, i) => sum + i.quantity, 0)
@@ -56,7 +56,7 @@ export default function RootLayout() {
       <main className="flex-1 w-full max-w-6xl mx-auto px-4 py-8">
         <Outlet />
       </main>
-
+     <BackToTop/>
       <footer className="bg-slate-800 text-slate-300 text-center py-4 text-sm">
         Copyright content don't use it
       </footer>
