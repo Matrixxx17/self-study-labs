@@ -7,6 +7,7 @@ import ProductsDetailPage from "./pages/ProductsDetailPage"
 import CartPage from "./pages/CartPage"
 import AdminPage from "./pages/AdminPage"
 import NotFoundPage from "./pages/NotFoundPage"
+import ScratchPage from "./pages/ScratchPage"
  
  
 function RequireAdmin({ children }) {
@@ -53,7 +54,14 @@ function App() {
             </RequireAdmin>
           }
         />
- 
+        <Route
+          path="/scratch"
+          element={
+
+              <ScratchPage />
+          
+          }
+        />
 
         <Route
           path="*"
@@ -61,6 +69,7 @@ function App() {
         />
  
       </Route>
+      
  
     </Routes>
   )

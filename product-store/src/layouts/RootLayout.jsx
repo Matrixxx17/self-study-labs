@@ -86,6 +86,16 @@ export default function RootLayout() {
             >
               Admin
             </NavLink>
+            <NavLink
+              to="/scratch"
+              style={({ isActive }) => ({
+                ...styles.navLink,
+                color: isActive ? "#ffffff" : "#d1d5db",
+                fontWeight: isActive ? "bold" : "normal",
+              })}
+            >
+              Scratch Page
+            </NavLink>
           </div>
         </div>
       </nav>
