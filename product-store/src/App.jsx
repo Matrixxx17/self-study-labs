@@ -1,18 +1,70 @@
-// src/App.jsx (or a test route)
-import { useState } from 'react'
-import Modal from './component/Modal'
-
+import { Navigate, Route, Routes } from "react-router-dom"
+ 
+import RootLayout from "./layouts/RootLayout"
+ 
+import ProductPage from "./pages/ProductPage"
+import ProductsDetailPage from "./pages/ProductsDetailPage"
+import CartPage from "./pages/CartPage"
+import AdminPage from "./pages/AdminPage"
+import NotFoundPage from "./pages/NotFoundPage"
+ 
+ 
+function RequireAdmin({ children }) {
+  const isAdmin = true
+ 
+  if (!isAdmin) {
+    return <Navigate to="/products" replace />
+  }
+ 
+  return children
+}
+ 
+ 
 function App() {
-  const [isOpen, setIsOpen] = useState(false)
-
   return (
-<div className="max-w-sm mx-auto mt-20 hover:scale-105 transition-transform rounded-xl border p-6">
-  <button onClick={() => setIsOpen(true)} className="...">Open Modal</button>
-  <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="Trapped">
-    <p>I'm stuck inside the card now.</p>
-  </Modal>
-</div>
+    <Routes>
+      <Route element={<RootLayout />}>
+        <Route
+          path="/"
+          element={<Navigate to="/products" replace />}
+        />
+        <Route
+          path="/products"
+          element={<ProductPage />}
+        />
+ 
+        <Route
+          path="/products/:id"
+          element={<ProductsDetailPage />}
+        />
+ 
+
+        <Route
+          path="/cart"
+          element={<CartPage />}
+        />
+ 
+
+        <Route
+          path="/admin"
+          element={
+            <RequireAdmin>
+              <AdminPage />
+            </RequireAdmin>
+          }
+        />
+ 
+
+        <Route
+          path="*"
+          element={<NotFoundPage />}
+        />
+ 
+      </Route>
+ 
+    </Routes>
   )
 }
-
+ 
 export default App
+ 
