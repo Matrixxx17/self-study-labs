@@ -1,62 +1,65 @@
-import { useState } from "react"
-import { ShoppingCart, Search, Star } from "lucide-react"
-import Modal from "../component/Modal"
- 
+// src/pages/ProductsPage.jsx — cleaner version, use this instead
+import { useEffect, useState, useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import api from '../api/axiosInstance'
+import FilterBar from '../component/FilterBar'
+import ProductCard from '../component/ProductCard'
+import StateBlock from '../component/StateBlock'
+
 export default function ProductsPage() {
-  const [isOpen, setIsOpen] = useState(false)
- 
+  const [searchParams] = useSearchParams()
+  const [products, setProducts] = useState([])
+  const [status, setStatus] = useState('loading')
+
+  const q = searchParams.get('q') || ''
+  const category = searchParams.get('category') || ''
+  const sort = searchParams.get('sort') || ''
+
+  const fetchProducts = useCallback(() => {
+    setStatus('loading')
+    const url = q
+      ? `/products/search?q=${encodeURIComponent(q)}`
+      : category
+        ? `/products/category/${category}`
+        : '/products?limit=12&skip=0'
+
+    api
+      .get(url)
+      .then((res) => {
+        setProducts(res.data.products)
+        setStatus('success')
+      })
+      .catch(() => setStatus('error'))
+  }, [q, category])
+
+  useEffect(() => {
+    fetchProducts()
+  }, [fetchProducts])
+
+  const sortedProducts = [...products].sort((a, b) => {
+    if (sort === 'price-asc') return a.price - b.price
+    if (sort === 'price-desc') return b.price - a.price
+    if (sort === 'rating-desc') return b.rating - a.rating
+    return 0
+  })
+
   return (
-    <div className="p-10">
- 
-      <div className="flex items-center gap-3">
-
- 
-        <h1 className="font-display text-4xl font-bold tracking-tight">
-          Product Store
-        </h1>
- 
+    <div>
+      <FilterBar />
+      <div className="mt-6">
+        {status === 'loading' && <StateBlock status="loading" />}
+        {status === 'error' && <StateBlock status="error" onRetry={fetchProducts} />}
+        {status === 'success' && sortedProducts.length === 0 && (
+          <StateBlock status="empty" emptyMessage="No products match your filters — try clearing search or category." />
+        )}
+        {status === 'success' && sortedProducts.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sortedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
       </div>
- 
- 
-
-      <div className="mt-8 flex gap-6">
- 
-        <button className="flex items-center gap-2">
-          <ShoppingCart size={20} />
-          Cart
-        </button>
- 
-        <button className="flex items-center gap-2">
-          <Search size={20} />
-          Search
-        </button>
- 
-        <button className="flex items-center gap-2">
-          <Star size={20} />
-          Featured
-        </button>
- 
-      </div>
- 
- 
-
-      <button
-        onClick={() => setIsOpen(true)}
-        className="ml-100 mt-8 rounded-lg bg-teal-700 px-5 py-3 text-white hover:bg-teal-800"
-      >
-        Open Modal
-      </button>
-
-      <Modal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        title="Test Modal"
-      >
-        <p className="leading-relaxed">
-          This is my reusable modal component.
-        </p>
-      </Modal>
- 
     </div>
   )
 }
