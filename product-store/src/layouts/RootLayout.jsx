@@ -95,7 +95,7 @@ export default function RootLayout() {
       </main>
 
       <footer style={styles.footer}>
-        Product Store
+        * This is copyright content don't use it *
       </footer>
     </div>
   )
