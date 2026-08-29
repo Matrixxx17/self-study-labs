@@ -5,7 +5,7 @@ import { Star, ArrowLeft, ShoppingCart } from 'lucide-react'
 import api from '../api/axiosInstance'
 import StateBlock from '../component/StateBlock'
 import useCartStore from '../store/useCartStore'
-
+import { formatPrice } from '../utlls/format'
 export default function ProductDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -97,7 +97,7 @@ export default function ProductDetailPage() {
           </div>
 
           <p className="font-display text-3xl font-bold text-teal-700 mt-4">
-            ₹{product.price}
+            {formatPrice(product.price)}
           </p>
 
           <p className="text-slate-600 leading-relaxed mt-4">{product.description}</p>
