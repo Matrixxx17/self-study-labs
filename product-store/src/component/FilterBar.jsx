@@ -39,8 +39,10 @@ export default function FilterBar() {
         >
           <option value="">All categories</option>
           {categories.map((c) => (
-            <option key={c.slug} value={c.slug}>{c.name}</option>
-          ))}
+  <option key={c.slug} value={c.slug}>
+    {toTitleCase(c.slug)}
+  </option>
+))}
         </select>
 
         <select
