@@ -16,8 +16,8 @@ import {
   getCategoryShare,
 } from '../utlls/analytics'
 
-import { formatPrice, toTitleCase } from '../utlls/format'
-
+import { formatPrice, toTitleCase } from '../utlls/format' 
+//
 
 function AnalyticsPage() {
   const [carts, setCarts] = useState([])
