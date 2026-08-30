@@ -3,13 +3,13 @@ import { useState } from 'react'
 import { Plus } from 'lucide-react'
 import Modal from '../component/Modal'
 import CreateProductForm from '../component/CreateProductForm'
-
+import { useToggle } from '../hooks/useToggle'
 export default function AdminPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+const { value: isModalOpen, setTrue: openModal, setFalse: closeModal } = useToggle()
   const [successMessage, setSuccessMessage] = useState('')
 
   const handleSuccess = (createdProduct) => {
-    setIsModalOpen(false)
+    closeModal()
     setSuccessMessage(`Product created successfully with id ${createdProduct.id}`)
   }
 
@@ -18,7 +18,7 @@ export default function AdminPage() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="font-display text-2xl font-bold">Admin</h1>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={openModal}
           className="flex items-center gap-2 rounded-lg bg-teal-700 px-4 py-2 text-white hover:bg-teal-800"
         >
           <Plus size={18} strokeWidth={1.75} />
@@ -34,7 +34,7 @@ export default function AdminPage() {
 
       <Modal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={closeModal}
         title="Add product"
       >
         <CreateProductForm onSuccess={handleSuccess} />

@@ -13,7 +13,7 @@ export default function CartPage() {
 
   const [confirmRemoveId, setConfirmRemoveId] = useState(null)
 
-  const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
+  const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0) // here i have removed redundant state
 
   if (items.length === 0) {
     return (

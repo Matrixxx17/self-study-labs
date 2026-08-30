@@ -5,29 +5,18 @@ import { Star, ArrowLeft, ShoppingCart } from 'lucide-react'
 import api from '../api/axiosInstance'
 import StateBlock from '../component/StateBlock'
 import useCartStore from '../store/useCartStore'
+import { formatPrice } from '../utlls/format'
+import { useFetch } from '../hooks/useFetch'
 
-export default function ProductDetailPage() {
+export default function ProductsDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
   const addItem = useCartStore((s) => s.addItem)
 
-  const [product, setProduct] = useState(null)
-  const [status, setStatus] = useState('loading')
+   const { data: product, loading, error, refetch } = useFetch(`/products/${id}`)
   const [activeImage, setActiveImage] = useState(null)
 
-  useEffect(() => {
-    setStatus('loading')
-    api
-      .get(`/products/${id}`)
-      .then((res) => {
-        setProduct(res.data)
-        setActiveImage(res.data.thumbnail)
-        setStatus('success')
-      })
-      .catch(() => setStatus('error'))
-  }, [id])
-
-  if (status === 'loading') {
+  if (loading) {
     return (
       <div className="animate-pulse">
         <div className="h-80 bg-slate-200 rounded-xl mb-4" />
@@ -37,7 +26,7 @@ export default function ProductDetailPage() {
     )
   }
 
-  if (status === 'error') {
+  if (error) {
     return (
       <StateBlock
         status="error"
@@ -45,6 +34,7 @@ export default function ProductDetailPage() {
       />
     )
   }
+    const displayImage = activeImage || product.thumbnail
 
   return (
     <div>
@@ -73,7 +63,7 @@ export default function ProductDetailPage() {
                   key={img}
                   onClick={() => setActiveImage(img)}
                   className={`h-16 w-16 flex-shrink-0 rounded-lg overflow-hidden border-2 ${
-                    activeImage === img ? 'border-teal-600' : 'border-transparent'
+                    displayImage === img ? 'border-teal-600' : 'border-transparent'
                   }`}
                 >
                   <img src={img} alt="" className="h-full w-full object-cover" />
@@ -97,12 +87,12 @@ export default function ProductDetailPage() {
           </div>
 
           <p className="font-display text-3xl font-bold text-teal-700 mt-4">
-            ₹{product.price}
+            {formatPrice(product.price)}
           </p>
 
           <p className="text-slate-600 leading-relaxed mt-4">{product.description}</p>
 
-          <button
+          <button variant ="primary"
             onClick={() => addItem(product)}
             disabled={product.stock === 0}
             className="mt-6 w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-6 py-3 text-white hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
