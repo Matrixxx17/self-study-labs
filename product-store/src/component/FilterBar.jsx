@@ -1,6 +1,7 @@
 import { useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import api from '../api/axiosInstance'
+import { toTitleCase } from '../utlls/format'
 
 export default function FilterBar() {
   const [searchParams, setSearchParams] = useSearchParams()
