@@ -9,7 +9,7 @@ const { value: isModalOpen, setTrue: openModal, setFalse: closeModal } = useTogg
   const [successMessage, setSuccessMessage] = useState('')
 
   const handleSuccess = (createdProduct) => {
-    closeModal
+    closeModal()
     setSuccessMessage(`Product created successfully with id ${createdProduct.id}`)
   }
 
