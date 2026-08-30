@@ -8,7 +8,7 @@ import useCartStore from '../store/useCartStore'
 import { formatPrice } from '../utlls/format'
 import { useFetch } from '../hooks/useFetch'
 
-export default function ProductDetailPage() {
+export default function ProductsDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
   const addItem = useCartStore((s) => s.addItem)
@@ -92,7 +92,7 @@ export default function ProductDetailPage() {
 
           <p className="text-slate-600 leading-relaxed mt-4">{product.description}</p>
 
-          <button
+          <button variant ="primary"
             onClick={() => addItem(product)}
             disabled={product.stock === 0}
             className="mt-6 w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-6 py-3 text-white hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"

@@ -7,7 +7,7 @@ export const formatPrice = (value) =>
 
 
 export const getDiscountedPrice = (product) =>
-    product.price = (product.price * product.discountedPercentage) / 100 
+    product.price - (product.price * (product.discountPercentage ?? 0)) / 100
 
 export const  toTitleCase = (slug) =>
     slug

@@ -71,7 +71,7 @@ export default function ProductsPage() {
         next.set("page", newPage)
         return next
       },
-      { replace: false } // deliberate navigation — Back should undo this
+      { replace: false } 
     )
   }
 
